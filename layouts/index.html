@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+<head>
+    <title>{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}</title>
+
+    <link rel="shortcut icon" href="{{ .Site.BaseURL }}/images/favicon.png">
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- Import the Vitessce CSS -->
+    <link crossorigin href="https://unpkg.com/vitessce@1.1.6/dist/umd/production/static/css/index.css" rel="stylesheet" />
+    <!-- Style the Vitessce element -->
+    <style>
+        .vitessce-app .vitessce-container {
+            height: 800px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <p>This is a test</p>
+    <div id='vitessce'></div>
+
+    <!-- Import the React and ReactDOM JS -->
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Import the Vitessce JS -->
+    <script crossorigin src="https://unpkg.com/vitessce@1.1.6/dist/umd/production/index.min.js"></script>
+    
+    <!-- Import the custom JS -->
+    {{ $externals := slice "react" "react-dom" "vitessce" }}
+    {{ $opts := dict "targetPath" "main.js" "externals" $externals }}
+    {{ $built := resources.Get "my_app.js" | babel | js.Build $opts }}
+    <script type="text/javascript" src="{{ $built.RelPermalink }}" defer></script>
+</body>
+</html>
